@@ -174,7 +174,10 @@ CtMainWin::CtMainWin(bool                            no_gui,
         else {
             present();
         }
+        while (gtk_events_pending()) gtk_main_iteration();
+        spdlog::debug("{} hpanedPos={}", __FUNCTION__, _pCtConfig->hpanedPos);
         _hPaned.property_position() = _pCtConfig->hpanedPos; // must be after present() (#1534)
+        while (gtk_events_pending()) gtk_main_iteration();
         _ctTextview.signal_size_allocate().connect(sigc::mem_fun(*this, &CtMainWin::_on_textview_size_allocate));
         signal_configure_event().connect(sigc::mem_fun(*this, &CtMainWin::_on_window_configure_event), false);
 
@@ -620,6 +623,7 @@ void CtMainWin::config_switch_tree_side()
         _hPaned.property_position() = tree_width;
     }
     _pCtConfig->hpanedPos = _hPaned.property_position();
+    spdlog::debug("{} hpanedPos={}", __FUNCTION__, _pCtConfig->hpanedPos);
 }
 
 void CtMainWin::_zoom_tree(bool is_increase)
