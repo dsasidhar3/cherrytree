@@ -382,7 +382,6 @@ bool CtMainWin::_on_window_configure_event(GdkEventConfigure*/*configure_event*/
 void CtMainWin::_on_textview_size_allocate(Gtk::Allocation& allocation)
 {
     _pCtConfig->hpanedPos = _hPaned.property_position();
-    spdlog::debug("{} hpanedPos={}", __FUNCTION__, _pCtConfig->hpanedPos);
     if (_prevTextviewWidth == 0) {
         _prevTextviewWidth = allocation.get_width();
     }
